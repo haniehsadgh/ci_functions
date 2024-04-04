@@ -1,4 +1,4 @@
-def call(dockerRepoName, imageName, portNum) {
+def call(dockerRepoName, imageName, portNum, pathDirectory) {
     pipeline {
         agent any
         parameters {
@@ -9,7 +9,7 @@ def call(dockerRepoName, imageName, portNum) {
         stages {
             stage('Lint') {
                 steps {
-                    sh 'pylint --fail-under 5.0 storage/*.py' 
+                    sh "pylint --fail-under 5.0 ${pathDirectory}/*.py" 
                 }
             }
             stage('Security') {

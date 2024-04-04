@@ -16,7 +16,8 @@ def call(dockerRepoName, imageName, portNum) {
                 steps {
                     sh "docker tag redis haniehgh/${dockerRepoName}:latest"
                     sh "bandit -r *.py"
-            }
+                }
+            } // Added closing brace for 'Security' stage
             stage('Package') {
                 when {
                     expression { env.GIT_BRANCH == 'origin/main' }

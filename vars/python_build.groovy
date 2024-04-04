@@ -34,8 +34,10 @@ def call(dockerRepoName, imageName, portNum) {
                 when {
                     expression { params.DEPLOY }
                 }
-                steps {
-                    sshCommand remote: 'Kafka', command 'docker compose up -d'
+                script {
+                    sshagent(['Kafka']) {
+                        sh 'docker compose up -d'
+                    }
                 }
             }
         }

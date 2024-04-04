@@ -17,10 +17,13 @@ def call(dockerRepoName, imageName, portNum) {
             }
             stage('Security') {
                 steps {
-                    sh "docker tag redis haniehgh/${dockerRepoName}:latest"
-                    sh "bandit -r *.py"
+                    script {
+                        def currentDir = pwd().split('/').last()
+                        sh "bandit -r ${currentDir}/*.py" 
+                    }
+                    // sh "docker tag redis haniehgh/${dockerRepoName}:latest"
                 }
-            } // Added closing brace for 'Security' stage
+            }
             stage('Package') {
                 when {
                     expression { env.GIT_BRANCH == 'origin/main' }

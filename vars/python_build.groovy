@@ -15,22 +15,22 @@ def call(dockerRepoName, imageName, portNum) {
                     }
                 }
             }
-            stage('Package') {
-                when {
-                    expression { env.GIT_BRANCH == 'origin/main' }
-                }
-                steps {
-                    withCredentials([string(credentialsId: 'DockerH', variable: 'TOKEN')]) {
-                        sh "echo $TOKEN | docker login -u haniehgh --password-stdin docker.io"
-                        // sh "docker login -u 'haniehgh' -p '$TOKEN' docker.io"
-                        script {
-                            def currentDir = pwd().split('/').last()
-                            sh "docker build -t ${dockerRepoName}:latest --tag haniehgh/${dockerRepoName}:${imageName} ${currentDir}/."
-                        }
-                        sh "docker push haniehgh/${dockerRepoName}:${imageName}"
-                    }
-                }
-            }
+            // stage('Package') {
+            //     when {
+            //         expression { env.GIT_BRANCH == 'origin/main' }
+            //     }
+            //     steps {
+            //         withCredentials([string(credentialsId: 'DockerH', variable: 'TOKEN')]) {
+            //             sh "echo $TOKEN | docker login -u haniehgh --password-stdin docker.io"
+            //             // sh "docker login -u 'haniehgh' -p '$TOKEN' docker.io"
+            //             script {
+            //                 def currentDir = pwd().split('/').last()
+            //                 sh "docker build -t ${dockerRepoName}:latest --tag haniehgh/${dockerRepoName}:${imageName} ${currentDir}/."
+            //             }
+            //             sh "docker push haniehgh/${dockerRepoName}:${imageName}"
+            //         }
+            //     }
+            // }
             stage('Security') {
                 steps {
                     script {

@@ -34,10 +34,9 @@ def call(dockerRepoName, imageName, portNum) {
                 when {
                     expression { params.DEPLOY }
                 }
-                script {
-                    sshagent(['Kafka']) {
-                        sh 'docker compose up -d'
-                    }
+                steps {
+                    sh "docker stop ${dockerRepoName} || true && docker rm ${dockerRepoName} || true"
+                    sh "docker run -d -p ${portNum}:${portNum} --name ${dockerRepoName} ${dockerRepoName}:latest"
                 }
             }
         }

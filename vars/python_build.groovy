@@ -9,8 +9,10 @@ def call(dockerRepoName, imageName, portNum) {
         stages {
             stage('Lint') {
                 steps {
-                    def currentDir = pwd()
-                    sh "pylint --fail-under 5.0 ${currentDir}/*.py" 
+                    script {
+                        def currentDir = pwd()
+                        sh "pylint --fail-under 5.0 ${currentDir}/*.py" 
+                    }
                 }
             }
             stage('Security') {

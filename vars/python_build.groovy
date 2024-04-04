@@ -15,15 +15,6 @@ def call(dockerRepoName, imageName, portNum) {
                     }
                 }
             }
-            stage('Security') {
-                steps {
-                    script {
-                        def currentDir = pwd().split('/').last()
-                        sh "bandit -r ${currentDir}/*.py" 
-                    }
-                    // sh "docker tag redis haniehgh/${dockerRepoName}:latest"
-                }
-            }
             stage('Package') {
                 when {
                     expression { env.GIT_BRANCH == 'origin/main' }
@@ -34,6 +25,15 @@ def call(dockerRepoName, imageName, portNum) {
                         sh "docker build -t ${dockerRepoName}:latest --tag haniehgh/${dockerRepoName}:${imageName} ."
                         sh "docker push haniehgh/${dockerRepoName}:${imageName}"
                     }
+                }
+            }
+            stage('Security') {
+                steps {
+                    script {
+                        def currentDir = pwd().split('/').last()
+                        sh "bandit -r ${currentDir}/*.py" 
+                    }
+                    // sh "docker tag redis haniehgh/${dockerRepoName}:latest"
                 }
             }
             stage('Deliver') {

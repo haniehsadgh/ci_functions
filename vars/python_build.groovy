@@ -23,8 +23,10 @@ def call(dockerRepoName, imageName, portNum) {
                     withCredentials([string(credentialsId: 'DockerH', variable: 'TOKEN')]) {
                         sh "echo $TOKEN | docker login -u haniehgh --password-stdin docker.io"
                         // sh "docker login -u 'haniehgh' -p '$TOKEN' docker.io"
-                        sh "pwd"
-                        sh "docker build -t ${dockerRepoName}:latest --tag haniehgh/${dockerRepoName}:${imageName} ."
+                        script {
+                            def currentDir = pwd().split('/').last()
+                            sh "docker build -t ${dockerRepoName}:latest --tag haniehgh/${dockerRepoName}:${imageName} ${currentDir}/."
+                        }
                         sh "docker push haniehgh/${dockerRepoName}:${imageName}"
                     }
                 }

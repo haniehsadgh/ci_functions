@@ -10,7 +10,7 @@ def call(dockerRepoName, imageName, portNum) {
             stage('Lint') {
                 steps {
                     sh 'pwd'
-                    sh 'pylint --fail-under 5.0 *.py' 
+                    sh 'pylint --fail-under 5.0 /*.py' 
                 }
             }
             stage('Security') {

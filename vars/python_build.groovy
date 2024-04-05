@@ -10,27 +10,10 @@ def call(dockerRepoName, imageName, portNum) {
                     }
                 }
             }
-            // stage('Package') {
-            //     when {
-            //         expression { env.GIT_BRANCH == 'origin/main' }
-            //     }
-            //     steps {
-            //         withCredentials([string(credentialsId: 'DockerH', variable: 'TOKEN')]) {
-            //             sh "echo $TOKEN | docker login -u haniehgh --password-stdin docker.io"
-            //             // sh "docker login -u 'haniehgh' -p '$TOKEN' docker.io"
-            //             script {
-            //                 def currentDir = pwd().split('/').last()
-            //                 sh "docker build -t ${dockerRepoName}:latest --tag haniehgh/${dockerRepoName}:${imageName} ${currentDir}/."
-            //             }
-            //             sh "docker push haniehgh/${dockerRepoName}:${imageName}"
-            //         }
-            //     }
-            // }
             stage('Security') {
                 steps {
                     script {
                         def currentDir = pwd().split('/').last()
-                        // sh "bandit -r ${currentDir}/*.py"
                         sh """
                             python3 -m venv .venv
                         """
@@ -42,13 +25,28 @@ def call(dockerRepoName, imageName, portNum) {
                     }
                 }
             }
-            stage('Deliver') {
+            stage('Package') {
                 when {
-                    expression { params.DEPLOY }
+                    expression { env.GIT_BRANCH == 'origin/main' }
                 }
                 steps {
-                    sh "docker stop ${dockerRepoName} || true && docker rm ${dockerRepoName} || true"
-                    sh "docker run -d -p ${portNum}:${portNum} --name ${dockerRepoName} ${dockerRepoName}:latest"
+                    withCredentials([string(credentialsId: 'DockerH', variable: 'TOKEN')]) {
+                        sh "echo $TOKEN | docker login -u haniehgh --password-stdin docker.io"
+                        // sh "docker login -u 'haniehgh' -p '$TOKEN' docker.io"
+                        script {
+                            def currentDir = pwd().split('/').last()
+                            sh "docker build -t ${dockerRepoName}:latest --tag haniehgh/${dockerRepoName}:${imageName} ${currentDir}/."
+                        }
+                        sh "docker push haniehgh/${dockerRepoName}:${imageName}"
+                    }
+                }
+            }
+            stage('Deliver') {
+                steps {
+                    // Remote deployment to VM
+                    sshagent(['your-ssh-credential-id']) {
+                        sh "ssh azureuser@20.81.210.156 'docker-compose up -d'"
+                    }
                 }
             }
         }

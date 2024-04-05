@@ -28,7 +28,7 @@ def call(dockerRepoName, imageName, portNum) {
             // }
             stage('Security') {
                 steps {
-                    script 
+                    script {
                         def currentDir = pwd().split('/').last()
                         sh """
                             . .venv/bin/activate

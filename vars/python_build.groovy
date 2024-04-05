@@ -26,9 +26,6 @@ def call(dockerRepoName, imageName, portNum) {
                 }
             }
             stage('Package') {
-                when {
-                    expression { env.GIT_BRANCH == 'origin/main' }
-                }
                 steps {
                     withCredentials([string(credentialsId: 'DockerH', variable: 'TOKEN')]) {
                         sh "echo $TOKEN | docker login -u haniehgh --password-stdin docker.io"

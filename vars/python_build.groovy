@@ -35,8 +35,8 @@ def call(dockerRepoName, imageName, portNum) {
                             python3 -m venv .venv
                         """
                         sh """
-                            source .venv/bin/activate
-                            // . .venv/bin/activate
+                            // source .venv/bin/activate
+                            . .venv/bin/activate
                             pip install bandit
                             bandit -r ${currentDir}/*.py
                         """

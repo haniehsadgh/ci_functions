@@ -28,11 +28,12 @@ def call(dockerRepoName, imageName, portNum) {
             // }
             stage('Security') {
                 steps {
-                    script {
+                    script 
+                        def currentDir = pwd().split('/').last()
                         sh """
                             . .venv/bin/activate
                             pip install bandit
-                            def currentDir = pwd().split('/').last()
+                            
                             bandit -r ${currentDir}/*.py
                         """
                     }

@@ -51,6 +51,10 @@ def call(dockerRepoName, imageName, portNum) {
                 }
                 steps {
                     sshagent(credentials: ['Kafka']) {
+                        sh """
+                            [ -d ~/.ssh ] || mkdir ~/.ssh && chmod 0700 ~/.ssh
+                            ssh-keyscan -t rsa,dsa 20.81.210.156 >> ~/.ssh/known_hosts
+                        """
                         sh "ssh azureuser@20.81.210.156 'docker pull haniehgh/${dockerRepoName}:${imageName}'"
                         sh "ssh azureuser@20.81.210.156 'docker-compose up -d'"
                         sh "done with Deliver stage"

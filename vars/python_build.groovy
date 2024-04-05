@@ -1,11 +1,6 @@
 def call(dockerRepoName, imageName, portNum) {
     pipeline {
         agent any
-        parameters {
-            booleanParam(defaultValue: false, description: 'Deploy the App', name: 'DEPLOY')
-            string(defaultValue: 'staging', description: '', name: 'DEPLOY_ENV')
-        }
-
         stages {
             stage('Lint') {
                 steps {

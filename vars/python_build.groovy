@@ -31,7 +31,7 @@ def call(dockerRepoName, imageName, portNum) {
                     script {
                         // sh "trivy --exit-code 0 --severity HIGH,MEDIUM haniehgh/${dockerRepoName}:${imageName}"
                         def currentDir = pwd().split('/').last()
-                        sh "bandit -r ${currentDir}/*.py" 
+                        sh "/snap/bandit/153/bin/bandit -r ${currentDir}/*.py" 
                     }
                 }
             }

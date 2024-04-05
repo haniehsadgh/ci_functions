@@ -29,7 +29,6 @@ def call(dockerRepoName, imageName, portNum) {
                 steps {
                     withCredentials([string(credentialsId: 'DockerH', variable: 'TOKEN')]) {
                         sh "echo $TOKEN | docker login -u haniehgh --password-stdin docker.io"
-                        // sh "docker login -u 'haniehgh' -p '$TOKEN' docker.io"
                         script {
                             def currentDir = pwd().split('/').last()
                             sh "docker build -t ${dockerRepoName}:latest --tag haniehgh/${dockerRepoName}:${imageName} ${currentDir}/."
@@ -40,7 +39,6 @@ def call(dockerRepoName, imageName, portNum) {
             }
             stage('Deliver') {
                 steps {
-                    // Remote deployment to VM
                     sshagent(credentials: ['Kafka']) {
                         sh "ssh azureuser@20.81.210.156 'docker-compose up -d'"
                     }

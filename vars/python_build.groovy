@@ -29,6 +29,7 @@ def call(dockerRepoName, imageName, portNum) {
             stage('Security') {
                 steps {
                     script {
+                        sh "source bandit-env/bin/activate"
                         // sh "trivy --exit-code 0 --severity HIGH,MEDIUM haniehgh/${dockerRepoName}:${imageName}"
                         def currentDir = pwd().split('/').last()
                         sh "bandit -r ${currentDir}/*.py" 

@@ -32,9 +32,12 @@ def call(dockerRepoName, imageName, portNum) {
                         def currentDir = pwd().split('/').last()
                         // sh "bandit -r ${currentDir}/*.py"
                         sh """
-                            . .venv/bin/activate
+                            python3 -m venv .venv
+                        """
+                        sh """
+                            source .venv/bin/activate
+                            // . .venv/bin/activate
                             pip install bandit
-                            
                             bandit -r ${currentDir}/*.py
                         """
                     }

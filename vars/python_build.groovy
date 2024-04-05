@@ -30,12 +30,13 @@ def call(dockerRepoName, imageName, portNum) {
                 steps {
                     script {
                         def currentDir = pwd().split('/').last()
-                        sh """
-                            . .venv/bin/activate
-                            pip install bandit
+                        sh "bandit -r ${currentDir}/*.py"
+                        // sh """
+                        //     . .venv/bin/activate
+                        //     pip install bandit
                             
-                            bandit -r ${currentDir}/*.py
-                        """
+                        //     bandit -r ${currentDir}/*.py
+                        // """
                     }
                 }
             }

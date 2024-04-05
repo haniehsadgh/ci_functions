@@ -34,10 +34,7 @@ def call(dockerRepoName, imageName, portNum) {
                             pip install bandit
                             def currentDir = pwd().split('/').last()
                             bandit -r ${currentDir}/*.py
-                            """
-                        // // sh "trivy --exit-code 0 --severity HIGH,MEDIUM haniehgh/${dockerRepoName}:${imageName}"
-                        // 
-                        // sh "bandit -r ${currentDir}/*.py" 
+                        """
                     }
                 }
             }

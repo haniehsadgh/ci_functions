@@ -44,7 +44,7 @@ def call(dockerRepoName, imageName, portNum) {
             stage('Deliver') {
                 steps {
                     // Remote deployment to VM
-                    sshagent(['your-ssh-credential-id']) {
+                    sshagent(credentials: ['Kafka']) {
                         sh "ssh azureuser@20.81.210.156 'docker-compose up -d'"
                     }
                 }

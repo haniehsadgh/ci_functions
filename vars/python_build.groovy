@@ -1,10 +1,10 @@
 def call(dockerRepoName, imageName, portNum) {
     pipeline {
         agent any
-        parameters {
-            booleanParam(defaultValue: false, description: 'Deploy the App', name: 'DEPLOY')
-            string(defaultValue: 'staging', description: '', name: 'DEPLOY_ENV')
-        }
+        // parameters {
+        //     booleanParam(defaultValue: false, description: 'Deploy the App', name: 'DEPLOY')
+        //     string(defaultValue: 'staging', description: '', name: 'DEPLOY_ENV')
+        // }
 
         stages {
             stage('Lint') {
@@ -31,9 +31,9 @@ def call(dockerRepoName, imageName, portNum) {
                 }
             }
             stage('Package') {
-                when {
-                    expression { env.GIT_BRANCH == 'origin/main' }
-                }
+                // when {
+                //     expression { env.GIT_BRANCH == 'origin/main' }
+                // }
                 steps {
                     withCredentials([string(credentialsId: 'DockerH', variable: 'TOKEN')]) {
                         sh "echo $TOKEN | docker login -u haniehgh --password-stdin docker.io"
@@ -46,9 +46,9 @@ def call(dockerRepoName, imageName, portNum) {
                 }
             }
             stage('Deliver') {
-                when {
-                    expression { params.DEPLOY }
-                }
+                // when {
+                //     expression { params.DEPLOY }
+                // }
                 steps {
                     sshagent(credentials: ['Kafka']) {
                         sh """

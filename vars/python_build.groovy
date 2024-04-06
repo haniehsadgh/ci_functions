@@ -57,7 +57,6 @@ def call(dockerRepoName, imageName, portNum) {
                         """
                         sh "ssh azureuser@20.81.210.156 'docker pull haniehgh/${dockerRepoName}:${imageName}'"
                         sh "ssh azureuser@20.81.210.156 'docker compose up -d'"
-                        sh "done with Deliver stage"
                     }
                 }
             }

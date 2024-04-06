@@ -56,14 +56,7 @@ def call(dockerRepoName, imageName, portNum) {
                             ssh-keyscan -t rsa,dsa 20.81.210.156 >> ~/.ssh/known_hosts
                         """
                         sh "ssh azureuser@20.81.210.156 'docker pull haniehgh/${dockerRepoName}:${imageName}'"
-                        // sh "ssh azureuser@20.81.210.156 'docker compose up -d'"
-                    }
-                }
-            }
-            stage('Deploy') {
-                steps {
-                    sshagent(credentials: ['Kafka']) {
-                        // sh "ssh azureuser@20.81.210.156 'docker pull haniehgh/${dockerRepoName}:${imageName}'"
+                        sh "sleep(10)"
                         sh "ssh azureuser@20.81.210.156 'docker compose up -d'"
                     }
                 }

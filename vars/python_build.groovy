@@ -66,6 +66,9 @@ def call(dockerRepoName, imageName, portNum) {
                 // }
                 steps {
                     sshagent(credentials: ['Kafka']) {
+                        script {
+                            sleep(20)
+                        }
                         // sh "ssh azureuser@20.81.210.156 'docker pull haniehgh/${dockerRepoName}:${imageName}'"
                         sh "ssh azureuser@20.81.210.156 'docker compose up -d'"
                     }

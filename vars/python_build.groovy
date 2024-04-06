@@ -45,10 +45,10 @@ def call(dockerRepoName, imageName, portNum) {
                     }
                 }
             }
-            stage('Deliver') {
-                // when {
-                //     expression { params.DEPLOY }
-                // }
+            stage('Deploy') {
+                when {
+                    expression { params.DEPLOY }
+                }
                 steps {
                     sshagent(credentials: ['Kafka']) {
                         sh """
@@ -57,20 +57,6 @@ def call(dockerRepoName, imageName, portNum) {
                         """
                         sh "ssh azureuser@20.81.210.156 'docker pull haniehgh/${dockerRepoName}:${imageName}'"
                         // sh "ssh azureuser@20.81.210.156 'docker compose up -d'"
-                    }
-                }
-            }
-            stage('Deploy') {
-                // when {
-                //     expression { params.DEPLOY }
-                // }
-                steps {
-                    sshagent(credentials: ['Kafka']) {
-                        script {
-                            sleep(100)
-                        }
-                        // sh "ssh azureuser@20.81.210.156 'docker pull haniehgh/${dockerRepoName}:${imageName}'"
-                        sh "ssh azureuser@20.81.210.156 'docker compose up -d'"
                     }
                 }
             }
